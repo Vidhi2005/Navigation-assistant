@@ -1,0 +1,38 @@
+REACT NATIVE MOBILE APP SETUP
+==============================
+
+Prerequisites:
+1. Node.js (v14+): https://nodejs.org/
+2. Android Studio: https://developer.android.com/studio
+3. React Native CLI
+
+Installation Steps:
+
+1. Install React Native CLI:
+   npm install -g react-native-cli
+
+2. Create new project:
+   npx react-native init NavigationAssistant
+   cd NavigationAssistant
+
+3. Install dependencies:
+   npm install @react-navigation/native
+   npm install @react-navigation/stack
+   npm install react-native-camera
+   npm install react-native-tts
+   npm install react-native-vibration
+   npm install @react-native-community/geolocation
+   npm install axios
+   npm install react-native-permissions
+
+4. Link native dependencies:
+   npx react-native link
+
+5. Configure Android permissions in android/app/src/main/AndroidManifest.xml:
+   <uses-permission android:name="android.permission.CAMERA" />
+   <uses-permission android:name="android.permission.VIBRATE" />
+   <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+   <uses-permission android:name="android.permission.INTERNET" />
+
+6. Run the app:
+   npx react-native run-android
