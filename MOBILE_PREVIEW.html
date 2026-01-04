@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Navigation Assistant - Mobile Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #2a2a2a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background: #000;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .screen {
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            position: relative;
+        }
+
+        .screen.active {
+            display: flex;
+        }
+
+        /* Home Screen */
+        #home {
+            background: #000;
+        }
+
+        #home .text {
+            font-size: 28px;
+            color: #fff;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        /* Navigation Screen */
+        #navigation {
+            background: #000;
+        }
+
+        #navigation .status {
+            font-size: 24px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: auto;
+        }
+
+        #navigation .emergency-btn {
+            background: #ff0000;
+            color: #fff;
+            font-size: 32px;
+            font-weight: bold;
+            padding: 40px;
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+        }
+
+        /* Emergency Screen */
+        #emergency {
+            background: #ff0000;
+        }
+
+        #emergency .title {
+            font-size: 48px;
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 40px;
+        }
+
+        #emergency .instruction {
+            font-size: 28px;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        /* Settings Screen */
+        #settings {
+            background: #1a1a1a;
+            justify-content: flex-start;
+            padding-top: 60px;
+        }
+
+        #settings .title {
+            font-size: 32px;
+            color: #fff;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
+
+        #settings .setting-group {
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        #settings label {
+            color: #fff;
+            font-size: 18px;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        #settings input {
+            width: 100%;
+            background: #2a2a2a;
+            color: #fff;
+            border: 2px solid #444;
+            padding: 15px;
+            font-size: 20px;
+            border-radius: 8px;
+        }
+
+        #settings button {
+            width: 100%;
+            background: #4CAF50;
+            color: #fff;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        .nav-controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-controls button {
+            background: #6200ea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-controls button:hover {
+            background: #7c1ae9;
+        }
+
+        .info-banner {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #6200ea;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            text-align: center;
+            max-width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div class="info-banner">
+        📱 <strong>Mobile App Preview</strong> - Use buttons below to navigate between screens
+    </div>
+
+    <div class="phone-frame">
+        <!-- Home Screen -->
+        <div id="home" class="screen active">
+            <div class="text">Double tap to start navigation</div>
+        </div>
+
+        <!-- Navigation Screen -->
+        <div id="navigation" class="screen">
+            <div class="status">Navigation running</div>
+            <button class="emergency-btn">EMERGENCY</button>
+        </div>
+
+        <!-- Emergency Screen -->
+        <div id="emergency" class="screen">
+            <div class="title">EMERGENCY</div>
+            <div class="instruction">TAP TO SEND HELP</div>
+        </div>
+
+        <!-- Settings Screen -->
+        <div id="settings" class="screen">
+            <div class="title">Settings</div>
+            
+            <div class="setting-group">
+                <label>Detection Distance (meters)</label>
+                <input type="number" value="5" placeholder="5">
+            </div>
+
+            <div class="setting-group">
+                <label>Voice Speed (0.3 - 1.0)</label>
+                <input type="number" value="0.5" placeholder="0.5" step="0.1">
+            </div>
+
+            <div class="setting-group">
+                <label>Emergency Contact</label>
+                <input type="tel" placeholder="Emergency number">
+            </div>
+
+            <button>SAVE</button>
+        </div>
+    </div>
+
+    <div class="nav-controls">
+        <button onclick="showScreen('home')">🟢 Home</button>
+        <button onclick="showScreen('navigation')">🚶 Navigation</button>
+        <button onclick="showScreen('emergency')">🚨 Emergency</button>
+        <button onclick="showScreen('settings')">⚙️ Settings</button>
+    </div>
+
+    <script>
+        function showScreen(screenId) {
+            // Hide all screens
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            
+            // Show selected screen
+            document.getElementById(screenId).classList.add('active');
+            
+            // Simulate TTS announcement
+            const announcements = {
+                'home': 'Navigation ready. Double tap to start.',
+                'navigation': 'Navigation running',
+                'emergency': 'Emergency mode activated',
+                'settings': 'Settings screen'
+            };
+            
+            console.log('🔊 TTS:', announcements[screenId]);
+        }
+
+        // Simulate double tap on home screen
+        let tapCount = 0;
+        let tapTimer;
+        
+        document.getElementById('home').addEventListener('click', function() {
+            tapCount++;
+            
+            if (tapTimer) clearTimeout(tapTimer);
+            
+            tapTimer = setTimeout(() => {
+                if (tapCount === 2) {
+                    console.log('🔊 TTS: Starting navigation');
+                    showScreen('navigation');
+                } else if (tapCount === 3) {
+                    console.log('🔊 TTS: Opening settings');
+                    showScreen('settings');
+                }
+                tapCount = 0;
+            }, 300);
+        });
+
+        // Emergency button
+        document.querySelector('.emergency-btn').addEventListener('click', function() {
+            console.log('🔊 TTS: Emergency mode');
+            showScreen('emergency');
+        });
+
+        // Emergency screen tap
+        document.getElementById('emergency').addEventListener('click', function() {
+            console.log('🔊 TTS: Sending emergency alert');
+            console.log('📍 Getting GPS location...');
+            console.log('📨 SMS sent to emergency contact');
+            alert('Emergency alert sent!\n\n(In real app: SMS with GPS location)');
+        });
+
+        console.log('📱 Navigation Assistant - Audio-First Mobile Preview');
+        console.log('🎯 Design: Gesture-driven, works with eyes closed');
+        console.log('🔊 All actions have TTS audio feedback (check console)');
+    </script>
+</body>
+</html>
